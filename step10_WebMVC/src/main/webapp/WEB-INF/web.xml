@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/JAVAee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters
+			: ContextLoaderListener 생성되면 WebApplicationContext 만들어지기 위해서 
+			 springBean설정문서를 찾는다
+			 기본 설정문서는 /WEB-INF/applicationContext.xml문서를 찾는다
+			 만약, 위치와 이름을 변경하고 싶으면 context-param설정한다 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests
+		DispatcherServlet 생성될 때 springBean 설정문서는 /WEB-INF/서블릿이름-servlet.xml를 찾는다
+		만약, 경로와 위치를 변경하고 싶다면 init-param을 설정한다.
+		bean 설정 문서가 로딩되면 webApplicationContext라는 스프링 컨테이너가 생성된다 -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+			/WEB-INF/spring/appServlet/servlet-context.xml
+			/WEB-INF/spring/appServlet/memberInit-context.xml
+			/WEB-INF/spring/appServlet/updown-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>/blog/*</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+	<filter-name>charaterEncoding</filter-name>
+	<filter-class>
+	org.springframework.web.filter.CharacterEncodingFilter
+	</filter-class>
+	<init-param>
+	<param-name>encoding</param-name>
+	<param-value>UTF-8</param-value>
+	</init-param>
+	</filter>
+	<filter-mapping>
+	<filter-name>charaterEncoding</filter-name>
+	<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 관리자 전용 진입점 -->
+		<servlet>
+		<servlet-name>adminServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+			/WEB-INF/spring/appServlet/admin-context.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>adminServlet</servlet-name>
+		<url-pattern>*.admin</url-pattern>
+	</servlet-mapping>
+
+</web-app>

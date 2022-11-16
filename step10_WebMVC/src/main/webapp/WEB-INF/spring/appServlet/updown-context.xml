@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- resolver는 하나만 실행 가능 -->
+
+<!-- 업로드를 위한 컴포넌트 등록하기 CommonsMultipartResolver-->
+<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
+	id="multipartResolver" />
+
+<!-- 다운로드할 때 bean의 이름에 해당하는 view 실행될 수 있도록 설정 BeanNameViewResolver -->
+<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+	<property name="order" value="1"></property>
+</bean>
+
+</beans>
