@@ -1,0 +1,9 @@
+start / 인수의 개수 1 / 리턴값 : null / 총 실행 nanos : /472200nanos
+pause / 인수의 개수 0 / 리턴값 : 월요일 / 총 실행 nanos : /732600nanos
+stop / 인수의 개수 0 / 리턴값 : null / 총 실행 nanos : /276400nanos
+start / 인수의 개수 1 / 리턴값 : null / 총 실행 nanos : /110000nanos
+pause / 인수의 개수 0 / 리턴값 : 안녕 / 총 실행 nanos : /162000nanos
+stop / 인수의 개수 0 / 리턴값 : null / 총 실행 nanos : /156700nanos
+start / 인수의 개수 1 / 리턴값 : null / 총 실행 nanos : /295800nanos
+pause / 인수의 개수 0 / 리턴값 : 하이 / 총 실행 nanos : /169800nanos
+stop / 인수의 개수 0 / 리턴값 : null / 총 실행 nanos : /753700nanos
