@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean class="sample07.MemberVO" id="memberVO" p:name="memberVO이름" p:age="11" p:addr="memberVOaddr"> <!-- 첫번째 이름과 동일하게 id줘보기 -->
+</bean>
+<bean class="sample07.MemberVO" id="m1" p:name="m1이름" p:age="22" p:addr="제주도"></bean>
+
+<!-- 기존방식 : 
+<bean class="sample07.MemberVOController" id="controller">
+	<constructor-arg ref="memberVO"></constructor-arg>
+	<constructor-arg ref="memberVO"></constructor-arg>
+</bean>
+
+<bean class="sample07.MemberVOController" id="controller2">
+	<property name="memberVO2" ref="memberVO2"></property>
+	<property name="memberVO" ref="memberVO"></property>
+</bean> -->
+
+<!-- 단축방식(autowire)
+	autowire 속성 : xml태그를 간소화
+	1) byType : setXxx() 자동 호출 / type이 같은 객체를 찾아서 자동으로 set 주입
+				만약, 동일한 타입이 2개 이상이 있을 경우는 byType은 안된다. ->이럴경우 byName을 사용한다
+				->set메소드 있어야함
+	2) byName : setXxx() 자동 호출 / xml의 id와 java의 property이름이 동일한 객체를 찾아서 주입
+				만약, 이름이 다르다면 호출이 안된채로 돌아간다(set~~메소드 이름말고 선언된 이름으로 property가 호출된다)
+				->set메소드 있어야함
+	3) constructor : 생성자를 자동으로 호출
+					우선 byType으로 찾고, 만약 동일한 객체가 여러개 있을 경우는 byName으로 찾는다.
+					여기서 byName은 xml의 id와 java의 생성자의 parameter이름과 동일
+					->byName으로 넘어갔을때 id가 안맞으면 아무것도 찾지 못한다.
+	즉, class의 id임(autowire일때)
+ -->
+<!-- <bean class="sample07.MemberVOController" id="controller" autowire="byType"></bean> -->
+<!-- <bean class="sample07.MemberVOController" id="m1" autowire="byName"></bean> -->
+<bean class="sample07.MemberVOController" id="controller" autowire="constructor"></bean>
+
+</beans>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.22.202204280911-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/java/sample01/applicationContext.xml</config>
+		<config>src/main/java/sample02/springDIConstructor.xml</config>
+		<config>src/main/java/sample03/conss.xml</config>
+		<config>src/main/java/sample04/springDISetter.xml</config>
+		<config>src/main/java/sample06/springDIList01.xml</config>
+		<config>src/main/java/sample06/springDIList02.xml</config>
+		<config>src/main/java/sample07/springDIAutowire.xml</config>
+		<config>src/main/java/sample08/sample08config.xml</config>
+		<config>src/main/java/sample09/springAnnotation.xml</config>
+		<config>src/main/java/sample10/springDIAnnotation.xml</config>
+	</configs>
+	<autoconfigs>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

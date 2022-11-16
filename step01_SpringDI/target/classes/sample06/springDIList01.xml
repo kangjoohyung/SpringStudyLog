@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 객체 생성 -->
+	<bean class="sample06.Customer" id="cu1"></bean>
+	<bean class="sample06.Customer" id="cu2">
+		<constructor-arg value="jang"></constructor-arg><!-- 생성자 -->
+		<property name="age" value="20"></property><!-- setAge() -->
+		<property name="addr" value="오리역"/><!-- setAddr() -->
+	</bean>
+	
+	<!-- Namespaces의 p를 체크후 p속성 사용 : property 속성으로 한 태그안에 추가(순서는 상관없음) -->
+	<bean class="sample06.Customer" id="cu3" p:addr="제주도" p:age="25" p:id="king"></bean>
+	
+	<!-- 외부의 properties파일의 위치를 설정 : PropertySourcesPlaceholderConfigurer -->
+	<!-- <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="location" >
+			<value>classpath:sample06/customerInfo01.properties</value>
+		</property>
+	</bean>-->
+	<bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<array>
+				<value>classpath:sample06/customerInfo01.properties</value>
+				<value>classpath:sample06/customerInfo02.properties</value>
+			</array>
+		</property>
+	</bean>
+	
+	<context:property-placeholder  location="classpath:sample06/customerInfo01.properties, classpath:sample06/customerInfo02.properties"/>
+	
+	
+	<!-- 외부의 properties 파일에 있는 key로 value사용 -->
+	<bean class="sample06.Customer" id="cu4" p:id="${id}" p:age="${age}" p:addr="${addr}">
+	</bean>
+	<bean class="sample06.Customer" id="cu5" p:id="${cu.id}" p:age="${cu.age}" p:addr="${cu.addr}" />
+	
+	
+	
+</beans>

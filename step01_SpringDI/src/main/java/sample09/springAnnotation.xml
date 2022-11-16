@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<!-- 
+		@Autowired를 사용하려면 AutowiredAnnotationBeanPstProcessor bean으로 등록해야 한다
+			: byType기준! 만약에 동일한 객체가 여러개인 경우에는
+				id와 property명이 일치하는 객체를 찾아서 주입(byName)
+				->byType, byName구분은 xml내에서의 선언 기준
+	 -->
+	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+	<context:annotation-config></context:annotation-config>
+	
+	<!-- 객체생성 --> <!-- byType, byName구분은 xml내에서의 선언 기준 -->
+	<bean class="sample09.EmpDTO" id="empDTO" p:empno="100" p:name="희정" p:job="백조" />
+	<bean class="sample09.EmpDTO" id="dto2" p:empno="200" p:name="효리" p:job="우우" >
+		<qualifier value="aa"></qualifier>
+	</bean>
+	
+	<bean class="sample09.EmpService" id="service" />
+	
+	<bean class="sample09.EmpController" id="controller"></bean>
+	
+	<bean class="sample09.ResourceBean" id="resource"></bean>
+	
+
+</beans>

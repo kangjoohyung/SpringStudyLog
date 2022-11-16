@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- 객체 생성 : dao부터~(순서는 상관없음) -->
+<bean class="sample08.DbUtil" id="dbUtil"></bean>
+<bean class="sample08.BookDAOImpl" id="bookDAO" autowire="constructor"></bean>
+<bean class="sample08.EmailSender" id="esender"></bean>
+<bean class="sample08.MessageSender" id="msender"></bean>
+<bean class="sample08.BookServiceImpl" id="service" autowire="byType">
+	<constructor-arg ref="bookDAO"></constructor-arg>
+</bean>
+
+<bean class="sample08.BookDTO" id="book1"></bean>
+<bean class="sample08.BookDTO" id="book2"></bean>
+
+<bean class="sample08.BookController" id="controller" autowire="constructor"></bean>
+
+</beans>

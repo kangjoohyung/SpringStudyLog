@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean class="sample03.BookDAOImpl" id="dao"/>
+
+
+<!-- 인수 4개 받는 생성자 호출 -->
+<bean class="sample03.BookVo" id="bookVo">
+ <constructor-arg value="JSP"/> <!-- 인수 4개 받는 생성 자 호출 -->
+ <constructor-arg value="장희정"/>
+ <constructor-arg value="3000"/>
+ <constructor-arg>
+   <value>2022-4-25</value>
+ </constructor-arg>
+</bean>
+
+
+
+
+<bean class="sample03.BookController" id="controller">
+  <constructor-arg ref="dao"/>
+  <constructor-arg>
+    <ref bean="bookVo"/>
+  </constructor-arg>
+</bean>
+
+
+
+
+
+
+
+</beans>
+
+
+
+
+
+
+

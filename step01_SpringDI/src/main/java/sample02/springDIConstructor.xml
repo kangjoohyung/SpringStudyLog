@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 객체생성 id중복되면 안됨, 자바 변수명이랑 동일 -->
+	<bean class="sample02.Member" id="m1" />
+	
+	<bean class="sample02.Member" id="m2">
+		<constructor-arg value="jang"></constructor-arg> <!-- 인수 한개만 받는 생성자가 호출됨 -->
+	</bean>
+	
+	<bean class="sample02.Member" id="m3"><!-- int타입 태그에 넣어 생성자 인수 구분(String이 우선순위호출) -->
+		<constructor-arg value="kim" />
+		<constructor-arg value="30" type="int"/>
+	</bean>
+	
+	<bean class="sample02.Member" id="m4"> <!-- index=인수 순서 지정(0부터시작) -->
+		<constructor-arg value="제주도" index="2"/>
+		<constructor-arg value="king" index="0"></constructor-arg>
+		<constructor-arg value="20" index="1"></constructor-arg>
+	</bean>
+	
+	<bean class="sample02.Member" id="m5"><!-- value따로 쓰는 형태로 생성자호출 -->
+		<constructor-arg>
+			<value>hee</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>1234</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>24</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>대구</value>
+		</constructor-arg>
+	</bean>
+	<!-- dao호출 - 싱글톤으로 생성(?), 바로 닫음 -->
+	<bean class="sample02.MemberDAO" id="dao" />
+	
+	<!-- service호출 --> <!-- 인수 호출해서 쓸때 ref사용 ->confirgure에 선언된 id를 호출 -->
+	<bean class="sample02.MemberService" id="service">
+		<constructor-arg ref="dao"></constructor-arg>
+		<constructor-arg ref="m5"></constructor-arg>
+	</bean>
+
+</beans>

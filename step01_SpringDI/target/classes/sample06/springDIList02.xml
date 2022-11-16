@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<import resource="classpath:sample06/springDIList01.xml"></import>
+
+	<bean class="sample06.ListBean" id="listBean">
+		<property name="intList">
+			<list>
+				<value>10</value>
+				<value>50</value>
+				<value>70</value>
+				<value>90</value>
+				<value>100</value>
+			</list>
+		</property>
+		
+		<property name="strList">
+			<list>
+				<value>사과</value>
+				<value>딸기</value>
+				<value>포도</value>
+				<value>바나나</value>
+			</list>
+		</property>
+		
+		<!-- 외부의 bean 설정문서 연결 -> import 맨위로 -->
+		
+		
+		<property name="customerList">
+			<list>
+				<ref bean="cu1"></ref>
+				<ref bean="cu2"></ref>
+				<ref bean="cu3"></ref>
+				<ref bean="cu4"></ref>
+				<ref bean="cu5"></ref>
+				<bean class="sample06.Customer">
+					<property name="id" value="hyung"></property>
+					<property name="age" value="22"></property>
+					<property name="addr" value="대전"></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

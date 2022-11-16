@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <!-- 객체생성 -->
+ <bean class="sample04.Student" id="student">
+  <property name="no" value="10"/> <!-- setNo() 호출 -->
+  <property name="addr" value="서울"/>
+  <property name="name" value="나영"/>
+  <property name="phone" value="111-2222"/>
+ </bean>
+ 
+ <bean class="sample04.StudentDAOImpl" id="studentDAO"/>
+ 
+ <bean class="sample04.StudentServiceImpl" id="service">
+   <property name="studentDAO" ref="studentDAO"/> <!-- setStudentDAO() 호출됨. -->
+ </bean>
+ 
+ <bean class="sample04.StudentController" id="controller">
+   <property name="service" ref="service"/> <!-- setService(service)호출 -->
+   <property name="student" ref="student"/><!-- setStudent(student) 호출 -->
+ </bean>
+
+</beans>
+
+
+
+
+

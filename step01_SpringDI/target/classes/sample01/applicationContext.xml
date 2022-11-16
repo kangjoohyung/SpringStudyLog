@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 객체 생성 
+	ko=new MessageBeanKo(); 동일
+-->
+<bean class="sample01.MessageBeanKo" id="ko"></bean>
+
+<bean class="sample01.MessageBeanEn" id="en" scope="prototype"/><!-- scope=prototype(지연초기화):사용할때만 불러오고싶을때 지정하면 사전초기화를 피한다 - 생성자가 그때 생김-->
+<bean class="sample01.MessageBeanEn" id="en2" />
+
+</beans>

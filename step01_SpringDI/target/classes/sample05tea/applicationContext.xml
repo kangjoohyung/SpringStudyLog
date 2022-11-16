@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+<bean class="sample05.ProductBean" id="product" >
+   <property name="pname" > <!-- setPname()호출 -->
+     <value>새우깡</value>
+   </property>
+   <property name="pno" value="10"/>
+   <property name="price" value="4000"/>
+</bean>
+
+
+ <bean class="sample05.UserBean" id="user" >
+	 <property name="id" value="jang"/>
+	 <property name="addr" value="서울"/>
+	 <property name="name" value="장희정"/>
+	 <property name="phone" value="1111"/>
+</bean>
+
+<bean class="sample05.OrderMessageImpl" id="order" >
+   <property name="message" value="주문하셨습니다."/>
+   <property name="orderId" value="10"/>
+   
+   <property name="proudctBean" ref="product"/><!-- setProductBean()호출 -->
+   <property name="userBean" ref="user"/>
+ </bean>
+ 
+ 
+
+
+</beans>
+
+
+
+
+
