@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<!-- 계정설정 : 외부의 properties 파일의 위치 설정 -->
+<properties resource="config/dbInfo.properties"></properties>
+
+
+
+<settings>
+
+<!-- #{~}에 해당하는 값은 기본적으로 not null임(값이 꼭 있어야함). null이 들어오면 오류 발생.
+	만약 값이 없다면 null로 들어가게 하는 설정을 따로 해줘야만 null허용 가능해짐 -->
+<setting name="jdbcTypeForNull" value="NULL"></setting>
+
+<!-- 자바의 camel표기법과 DB의 underscore를 매핑해주는 설정-이름고정 -->
+	<setting name="mapUnderscoreToCamelCase" value="true"/>
+</settings>
+
+<!-- 자바객체의 별칭만들기 -->
+<typeAliases>
+<typeAlias type="kosta.dto.EmpDTO" alias="empDTO"></typeAlias>
+<typeAlias type="kosta.dto.StudentDTO" alias="studentDTO"></typeAlias>
+
+</typeAliases>
+
+<environments default="development">
+<environment id="development">
+<transactionManager type="JDBC"/>
+<dataSource type="UNPOOLED"> <!-- UNPOOLED | POOLED  데이터커넥션 풀을 설정할필요가 없어서 현재 UNPOOLED로 바꿈-->
+<property name="driver" value="${driver}"/> <!-- 고정값 -->
+<property name="url" value="${url}"/> <!-- 고정값 -->
+<property name="username" value="${username}"/> <!-- 고정값 / value에 c##scott등으로 직접 써도되지만 유지보수를 위해서 외부의 key로 관리 -->
+<property name="password" value="${password}"/> <!-- 고정값 / 위와 동일 -->
+</dataSource>
+</environment>
+</environments>
+
+<mappers>
+<mapper class="kosta.mapper.EmpMapper"/><!-- xml대신 interface를 넣기(이름은 클래스지만 상관없음) -->
+<mapper resource="config/EmpSelectMapper.xml"/><!--쿼리설정 : 설정된 매퍼경로넣기-->
+<mapper resource="config/StudentMapper.xml"></mapper>
+<mapper resource="config/DynamicMapper.xml"></mapper>
+</mappers>
+
+</configuration>

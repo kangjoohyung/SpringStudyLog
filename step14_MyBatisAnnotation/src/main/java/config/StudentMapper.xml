@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="studentMapper">
+
+<select id="selectAll" resultType="studentDTO">
+	select * from student
+</select>
+
+<insert id="insert" parameterType="studentDTO">
+<!-- #{~}에 해당하는 값은 기본적으로 not null임(값이 꼭 있어야함)
+	만약 값이 없다면 null로 들어가게 하는 설정을 따로 해줘야만 null허용 가능해짐 -->
+insert into student values(student_seq.nextval, #{stName}, #{stAddr}, #{stPhone})
+</insert>
+
+</mapper>

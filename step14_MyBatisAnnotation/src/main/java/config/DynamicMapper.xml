@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dynamicMapper"><!-- 호출할때 namespace.~~로 호출 -->
+<!-- 동적SQL 예제 -->
+<!-- 
+   1. emp테이블에서 조건에 따라 검색하기
+    
+      ename이 들어오면 ename에 해당하는 레코드 검색 or
+      job이 들어오면 job에 해당하는 레코드 검색 
+      둘다 들어오면 ename과 job을 조건으로 사용.
+      
+      select * from emp;
+      select * from emp where ename="";
+      select * from emp where ename="" and job=""; ->컬럼명은 ename, DTO에 맞춰서 쓰기(파라미터타입)
+      select * from emp where  job="";
+    
+    : where 태그는 내부에 내용이 놓이게 되면 where를 추가한다.
+     where 태그 내부에 and, or 로 시작하면 and나 or을 제거한다. ->쿼리말고 태그 내용인듯
+   -->
+<!-- <select id="ifSelect" parameterType="empDTO" resultType="empDTO"> -->
+<!-- 	<include refid="empSelectMapper.empSelectSQL"></include>어제사용한 셀렉트절 앞부분 참조 -->
+<!-- 	 태그 속에서는 #{}쓰면 안됨  -->
+<!-- 	<where> -->
+<!-- 		<if test="empName!=null">#{}사용없이 그대로 parameter기준으로 쓰기 -->
+<!-- 			ename=#{empName} -->
+<!-- 		</if> -->
+<!-- 		<if test="job!=null"> -->
+<!-- 			and job=#{job} -->
+<!-- 		</if> -->
+<!-- 	</where> -->
+<!-- </select> -->
+
+     <!--위 쿼리를 trim으로 변경
+      *trim 요소
+      prefix="처리후 엘리먼트 내용이 있으면 가장 앞에 붙여준다"  
+      prefixOverrides="처리후 엘리먼트 내용중 가장 앞에 해당 문자들이 있다면 자동삭제" 
+      
+      suffix="처리후 엘리먼트 내용이 있으면 가장 뒤에 붙여준다." 
+      suffixOverrides="처리후 엘리먼트 내용중 가장 뒤에 해당 문자들이 있다면 자동삭제"
+   
+   -->
+<select id="ifSelect" parameterType="empDTO" resultType="empDTO">
+	<include refid="empSelectMapper.empSelectSQL"></include>
+	<trim prefix="where" prefixOverrides="and|or">
+		<if test="empno!=null">
+			empno=#{empno}
+		</if>
+		<if test="empName!=null"><!-- #{}사용없이 그대로 parameter기준으로 쓰기 -->
+			and ename=#{empName}
+		</if>
+		<if test="job!=null">
+			and job=#{job}
+		</if>
+	</trim>
+</select>
+
+    <!--레코드 수정
+     ename, job, sal 의 항목이 각각 null이 아닐때 empno에 해당하는
+     레코드 수정한다.
+     update emp  set ename=?  where empno=?;
+     update emp  set job=?  where empno=?;
+     update emp  set sal=?  where empno=?;
+     
+     update emp  set ename=? ,job=? where empno=?;
+      
+      set 태그는 set을 추가하고 필요없는 콤마를 제거해준다.
+    -->
+<!--     <update id="setTest" parameterType="empDTO"> -->
+<!--     	update emp -->
+<!--     	<set> -->
+<!--     		<if test="empName!=null"> -->
+<!--     		ename=#{empName},  -->
+<!--     		</if> -->
+<!--     		<if test="job!=null"> -->
+<!--     			job=#{job},  -->
+<!--     		</if> -->
+<!--     		<if test="sal>0">int라서 0을 쓰면 안된다 -->
+<!--     			sal=#{sal} -->
+<!--     		</if> -->
+<!--     	</set> -->
+<!--     	<where> -->
+<!--     		empno=#{empno} -->
+<!--     	</where> -->
+    
+<!--     </update> -->
+   
+   
+        <!--위 쿼리를 trim으로 변경
+      *trim 요소
+      prefix="처리후 엘리먼트 내용이 있으면 가장 앞에 붙여준다"  
+      prefixOverrides="처리후 엘리먼트 내용중 가장 앞에 해당 문자들이 있다면 자동삭제" 
+      
+      suffix="처리후 엘리먼트 내용이 있으면 가장 뒤에 붙여준다." 
+      suffixOverrides="처리후 엘리먼트 내용중 가장 뒤에 해당 문자들이 있다면 자동삭제"
+   
+   -->
+   <!-- 위의 set을 trim으로 변경하기 -->
+   <update id="setTest" parameterType="empDTO">
+    	update emp
+    		<trim prefix="set" suffixOverrides=",">
+    		<if test="empName!=null">
+    		ename=#{empName},
+    		</if>
+    		<if test="job!=null">
+    			job=#{job}, 
+    		</if>
+    		<if test="sal>0"><!-- int라서 0을 쓰면 안된다 -->
+    			sal=#{sal}
+    		</if>
+    	</trim>
+    	<where>
+    		empno=#{empno}
+    	</where>
+    
+    </update>
+    
+    <!-- foreach로 리스트로 인수 받아서 select 출력하기
+    
+	      select * from emp
+      where empno in (7777);
+      
+       select * from emp
+      where empno in (7777,222,444,....);
+    -->
+    <select id="forEachTest" parameterType="list" resultType="empDTO">
+    	<include refid="empSelectMapper.empSelectSQL"></include>
+    	<where>
+    		<!-- emp no in (값, 값, 값, 값) -->
+    		empno in
+    		<!-- open, close를 직접써도 되고 지정해도됨, item은 변수명, collection은 콜렉션종류, 구분자, -->
+    		<foreach collection="list" item="item" open="(" close=")" separator=",">
+    		#{item}
+    		</foreach>
+    	</where>
+    </select>
+    
+</mapper>
