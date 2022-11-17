@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dynamicMapper"> 
+
+     <!-- 레코드 등록 -->
+	<insert id="productInsert" parameterType="productDTO">
+		insert into productlist
+		values(#{code}, #{name}, #{qty}, #{price}, #{detail})
+	</insert>
+	
+	
+	
+	<!-- 
+    ex) select * from productList
+    ex)  select * from productList where 검색필드 like  검색단어
+    ex) select *from productList order by 정렬대상
+    ex) select * from productList where 검색필드 like  검색단어  order by 정렬대상
+	 -->
+	<select id="productSearchOrder" parameterType="map" resultType="productDTO">
+		select * from productlist
+		<where>
+			<if test="keyField != null and keyWord!=null">
+				upper(${keyField}) like '%' || upper(#{keyWord}) || '%'
+			</if>
+		</where>
+		
+		<if test="orderWord != null">
+			order by ${orderWord} 
+			<choose>
+			  <when test="sort==0">
+			     desc
+			  </when>
+			  <otherwise>
+			      asc
+			  </otherwise>
+			</choose>
+		</if>
+		
+	</select>
+	
+	
+
+	<update id="productUpdate" parameterType="productDTO">
+		update productlist
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="qty > 0">
+				qty = #{qty},
+			</if>
+			<if test="price > 0">
+				price = #{price},
+			</if>
+			<if test="detail != null">
+				detail = #{detail},
+			</if>
+		</set>
+		<where>
+			code = #{code}
+		</where>
+	</update>
+	
+	
+	
+	<delete id="productDelete" parameterType="string">
+		delete productList
+		<if test="_parameter!=null">
+		  where code = #{_parameter}
+		</if>
+	</delete>
+	
+	
+	
+	<select id="productSum" resultType="int">
+		select sum(qty) from productList
+	</select>
+	
+	
+	
+	
+	<select id="productFor" parameterType="list" resultType="productDTO">
+		select * from productList 
+		<where>
+			code in 
+			<foreach collection="list" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		</where>
+	</select>
+	
+
+</mapper>
