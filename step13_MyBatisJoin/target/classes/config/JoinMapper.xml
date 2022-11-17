@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="joinMapper"><!-- 호출할때 namespace.~~로 호출 -->
+<!-- SQL join 하기 -->
+
+<!-- 조인문에 사용할 resultMap만들기 -->
+<resultMap type="commentb" id="associationMap"> <!-- join등에 사용시 기준이 되는 DTO를 타입에 넣기 -->
+	
+	<!-- id:primary key 매핑시킬때 / 일반속성은 result 사용 -->
+	<id column="comment_No" property="commentNo"></id>
+	<result column="user_id" property="userId"></result>
+	<result column="comment_content" property="commentContent"/>
+	<result column="reg_Date" property="regDate"/>
+	
+	<association property="users" javaType="userDTO">
+	<!-- property엔 DTO내에서 선언된 객체이름, ofType엔 xml에서의 DTO객체 alias별칭 -->
+		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
+	</association>
+</resultMap>
+
+<!-- 1:다 인 관계 설정 -->
+<resultMap type="commentb" id="collectionMap"><!-- 주체는 commentb -->
+<!-- id:primary key 매핑시킬때 / 일반속성은 result 사용 -->
+	<id column="comment_No" property="commentNo"></id>
+	<result column="user_id" property="userId"></result>
+	<result column="comment_content" property="commentContent"/>
+	<result column="reg_Date" property="regDate"/>
+	
+	<collection property="replies" ofType="replyDTO">
+	<!-- property엔 DTO내에서 선언된 객체이름, javaType엔 xml에서의 DTO객체 alias별칭 -->
+		
+		<id column="reply_no" property="replyNo"/>
+		<result column="reply_user_id" property="userId"></result>
+		<result column="reply_content" property="replyContent"/>
+		<result column="reg_date" property="regDate"/>
+	</collection>
+
+</resultMap>
+
+
+   <!-- user_id를 전달받아 user_id가 작성한 commentb 정보를 함께 검색 -->
+<resultMap type="userDTO" id="userCollectionMap">
+	<id property="userId" column="user_id"/>
+	<result property="userName" column="user_name"/>
+	<collection property="commentbList" ofType="commentb">
+		<id property="commentNo" column="comment_no"/>
+		<result column="user_id" property="userId"></result>
+		<result column="comment_content" property="commentContent"/>
+		<result column="reg_Date" property="regDate"/>
+	</collection>
+
+</resultMap>
+
+<!-- 1:1의 관계 문제1) 한개의 Comment 정보를 검색하면서 작성자 정보도 함께 검색하고 싶다.
+  SELECT c.comment_No, c.user_id, u.user_name, c.comment_Content, c.reg_Date
+		FROM commentb c JOIN users u
+		ON c.user_id = u.user_id -->
+	<select id="joinAssociation" resultMap="associationMap"><!-- 위에서 선언된 resultMap을 활용 -->
+	 SELECT c.comment_No, c.user_id, u.user_name, c.comment_Content, c.reg_Date
+		FROM commentb c JOIN users u
+		ON c.user_id = u.user_id
+	</select>
+    
+<!-- 1:다의 관계 문제2) Commentb정보와 함께 Reply정보를 검색하고 싶다.
+
+  SELECT c.comment_no, c.user_id, c.comment_Content, 
+       r.reply_no, r.reply_content,r.user_id, r.reg_date
+  FROM commentB c JOIN reply r
+  ON c.comment_no = r.comment_no
+   -->
+   <select id="joinCollection" resultMap="collectionMap">
+   SELECT c.comment_no, c.user_id, c.comment_Content, 
+       r.reply_no, r.reply_content,r.user_id reply_user_id, r.reg_date
+  FROM commentB c JOIN reply r
+  ON c.comment_no = r.comment_no
+   </select>
+   
+   <!-- user_id를 전달받아 user_id가 작성한 commentb 정보를 함께 검색 -->
+   <select id="userCollection" parameterType="string" resultMap="userCollectionMap">
+   select user_id, user_name, comment_no, comment_content, reg_date 
+   from commentb join users using(user_id) where user_id=#{_parameter}
+   </select>
+</mapper>
