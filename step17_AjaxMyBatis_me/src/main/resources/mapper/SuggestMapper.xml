@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="suggestMapper">
+
+<select id="selectByWord" parameterType="string" resultType="string"><!-- 컬럼이 하나면 resultType= string -->
+select word from suggest 
+where lower(word) like lower( #{_parameter}||'%')
+</select>
+</mapper>
