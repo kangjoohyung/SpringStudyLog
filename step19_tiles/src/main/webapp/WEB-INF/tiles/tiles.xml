@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+	<definition name="layout" template="/WEB-INF/tiles/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"></put-attribute>
+	</definition>
+	
+	<!-- controller에서 */* 의 규칙으로 리턴하는 뷰의 정보에 따라 화면 구성을 처리한다.-->
+<!-- 	<definition name="*/*" extends="layout">패턴에 따라 뷰 연결 -->
+<!-- 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp"/>와일드카드1, 2번째것 뜻함 -->
+<!-- 	</definition> -->
+
+<!-- boardLayout용 정의 -->
+	<definition name="boardLayout" template="/WEB-INF/tiles/boardLayout.jsp">
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"></put-attribute>
+		<put-attribute name="aside" value="/WEB-INF/tiles/aside.jsp"></put-attribute>
+	</definition>
+	
+	<!-- 뷰의 정보가 user/* 경우 layout 적용 -->
+	<definition name="user/*" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/user/{1}.jsp"></put-attribute>
+	</definition>
+	
+	<!-- 뷰의 정보가 board/* 경우 - 보드레이아웃 적용 -->
+<!-- 	<definition name="board/*" extends="boardLayout"> -->
+<!-- 		<put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"></put-attribute> -->
+<!-- 	</definition> -->
+	
+	<!-- 하위폴더 포함 하기 ->*두개넣으면 됨 -->
+	<definition name="board/**" extends="boardLayout">
+		<put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"></put-attribute>
+	</definition>
+	
+</tiles-definitions>
