@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="empSelectMapper"><!-- 호출할때 namespace.~~로 호출 -->
+<!-- 여러개 만들기위해 미완성코드 넣어놓으면, 처음 스캔할때 500번 에러처럼 전체가 작동안됨-주의할것 -->
+
+<!-- 자주 사용되는 공통된 문장을 미리 선언해 놓고 include를 이용해서 재사용한다(참조한다) -->
+<sql id="empSelectSQL"> <!-- 이름은 대문자니까 낙타표기법 아니어도됨 -->
+select empno, ename as empNAME, job, sal, hiredate from emp
+</sql>
+
+<!-- 전체검색 -->
+<select id="selectAll" resultType="empDTO"> 
+	<include refid="empSelectSQL"></include>
+	order by hiredate desc
+</select>
+
+<!-- 사원번호에 해당하는 사원정보검색 -->
+<select id="selectByEmpno" parameterType="int" resultType="empDTO">
+	<include refid="empSelectSQL"></include>
+	where empno=#{_parameter}
+</select>
+
+<!-- 인수로 전달된 급여보다 적게 받는 사원 검색 --><!-- 부등호는 &lt; &gt; 사용(태그이기때문에) -->
+<select id="selectLessThanSal" parameterType="int" resultType="empDTO">
+	<include refid="empSelectSQL"></include>
+	where sal &lt; #{_parameter} order by sal desc
+</select>
+
+<!-- 인수로 전달된 최소 ~ 최대 사이의 급여를 받는 사원 검색 -->
+<!-- parameterMap은 사용 안함, 맵은 type에서 맵을 사용 -->
+<select id="selectBetweenSal" parameterType="map" resultType="empDTO">
+<!-- 아래에는 키값을 넣어야함. map을 만들때 아래key와 이름 같게 넣기(put) -->
+	<include refid="empSelectSQL"></include>
+	where sal between #{min} and #{max} order by sal desc
+</select>
+
+<!-- 정렬대상을 인수로 받아 정렬하기 -->
+<!-- #{_parameter}로 사용하면 '~~'로 묶여서 컬럼명으로 제대로 인식이 안됨 -->
+<!-- ${_parameter}로 사용하면 statement방식으로 사용이 가능해진다
+	->하지만 보안상 쓰면 안된다 -->
+<select id="selectOrder" parameterType="string" resultType="empDTO">
+	<include refid="empSelectSQL"></include>
+	<!-- order by ${_parameter} -->
+	order by #{_parameter}
+</select>
+
+<!-- 검색필드와 검색단어 또는 사원번호 또는 급여에 해당하는 레코드 검색 -->
+<select id="selectWhereMix" parameterType="map" resultType="empDTO">
+	<include refid="empSelectSQL"></include><!-- like에 연결연산자 ||사용(자바의 +) -->
+	<!-- empno, sal을 EmpDTO를 활용해서 사용->emp키의 안에 EmpDTO로 넣는다면 emp.empno식으로 꺼낼수있음 -->
+	<!-- 컬럼이름에는 statement 방식을 사용해야함-아니면 위의 예제처럼 안먹힘
+		->보안상 쓰지 말기 -->
+	where upper(${keyField}) like '%'||#{keyword}||'%' or empno=#{emp.empno} or sal> #{emp.sal}
+</select>
+
+</mapper>

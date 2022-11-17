@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="empMapper"><!-- 호출할때 namespace.~~로 호출 -->
+
+<!-- emp테이블에 사원의 이름 검색 -->
+<!-- resultType은 열의 개수를 고려해서-컬럼1개면 String(?) -->
+<select id="selectEname" resultType="string">
+select ename from emp
+</select>
+
+<!-- 등록하기 -->
+<!-- parameterMap은 요새 쓰지않음, parameterType만씀 : 인수로 전달되는 타입 -여기서는 DTO-->
+<insert id="insert" parameterType="empDTO">
+<!-- DTO기준으로 호출됨(파라미터인수에 설정했으니) #{컬럼명}으로 설정(? 물음표대신), getEmpno호출됨, 오른쪽에 #{}안에 DTO변수명 넣기 -->
+insert into emp(empno, ename, job, sal, hiredate) values(#{empno}, #{empName}, #{job}, #{sal}, sysdate)
+</insert>
+
+<!-- 사원번호와 해당하는 사원정보수정하기(ename, job, sal) -->
+<update id="updateByno" parameterType="empDTO">
+update emp set ename=#{empName}, job=#{job}, sal=#{sal} where empno=#{empno}
+</update>
+
+
+<!-- 사원번호에 해당하는 사원삭제하기 -->
+<delete id="deleteByno" parameterType="int">
+delete from emp where empno=#{_parameter}
+</delete>
+
+
+<!-- emp테이블의 job에 해당하는 검색
+	다른 mapper의 쿼리를 참조하는 예제 
+	: 참조할때 namespace.id  로 사용(refid)-->
+<select id="selectByJob" parameterType="string" resultType="empDTO">
+	<include refid="empSelectMapper.empSelectSQL"></include>
+	where job=#{_parameter}
+</select>
+
+
+</mapper>
