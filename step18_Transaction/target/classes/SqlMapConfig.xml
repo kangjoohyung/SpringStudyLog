@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+<settings>
+
+<!-- #{~}에 해당하는 값은 기본적으로 not null임(값이 꼭 있어야함). null이 들어오면 오류 발생.
+	만약 값이 없다면 null로 들어가게 하는 설정을 따로 해줘야만 null허용 가능해짐 -->
+<setting name="jdbcTypeForNull" value="NULL"></setting>
+
+<!-- 자바의 camel표기법과 DB의 underscore를 매핑해주는 설정-이름고정 -->
+	<setting name="mapUnderscoreToCamelCase" value="true"/>
+</settings>
+
+
+</configuration>

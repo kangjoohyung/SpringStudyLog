@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="TransferMapper">
+ 
+ <!-- 출금하기 -->
+ <update id="withDraw" parameterType="transferDTO">
+     update bank
+     set balance = balance - #{transferAmount}
+     where account=#{output}
+ </update>
+ 
+ <!-- 입금하기 -->
+ <update id="deposit" parameterType="transferDTO">
+     update bank
+     set balance = balance + #{transferAmount}
+     where account=#{input}
+ </update> 
+
+</mapper>
+
+
+
+
+
+
+
+
