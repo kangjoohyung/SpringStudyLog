@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<!-- 외부 properties파일의 위치를 설정하기 -->
+	<properties resource="config/dbInfo.properties"/>
+	
+	<!-- 객체 별칭 설정하기 -->
+	<typeAliases>
+		<typeAlias type="kosta.dto.EmpDTO" alias="empDTO"/>
+		<typeAlias type="kosta.dto.DeptDTO" alias="deptDTO"/>
+		<typeAlias type="kosta.dto.SalgradeDTO" alias="salgradeDTO"/>
+	</typeAliases>
+	
+	
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="UNPOOLED"> <!-- POOLED || UNPOOLED -->
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<mapper resource="config/joinMapper.xml" />
+	</mappers>
+</configuration>

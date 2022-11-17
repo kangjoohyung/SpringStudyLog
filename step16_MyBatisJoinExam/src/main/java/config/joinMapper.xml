@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="joinMapper">
+
+     <!--  1 : 1 인겨우 -->
+	<resultMap type="empDTO" id="selectOneMap">
+		<id column="empno" property="empNo" />
+		<result column="ename" property="ename" />
+		<result column="job" property="job" />
+		<result column="hiredate" property="hireDate" />
+		<association property="dept" javaType="deptDTO">
+			<id column="deptno" property="deptNo" />
+			<result column="dname" property="dname" />
+			<result column="loc" property="loc" />
+		</association>
+	</resultMap>
+	
+	
+	
+    <!-- 1-2번문제  1 : 다  -->
+	<resultMap type="deptDTO" id="selectTwoMap">
+		<id column="deptno" property="deptNo"/>
+		<result column="dname" property="dname"/>
+		<result column="loc" property="loc"/>
+		<collection property="empList" ofType="empDTO">
+			<id column="empno" property="empNo"/>
+			<result column="ename" property="ename"/>
+		</collection>
+	</resultMap>
+	
+	
+	
+ <!-- 사원정보을 기준으로 급여 등급 매핑과정.. -->
+	<resultMap type="empDTO" id="selectThreeMap">
+		<id column="empno" property="empNo" />
+		<result column="ename" property="ename" />
+		<result column="job" property="job" />
+		<result column="sal" property="sal" />
+		<association property="salgrade" javaType="salgradeDTO">
+			<id column="grade" property="grade"/>
+			<result column="losal" property="losal"/>
+			<result column="hisal" property="hisal"/>
+		</association>
+	</resultMap>
+	
+	<!-- 급여등급을 기준으로 사원정보 매핑 -->
+	<resultMap type="salgradeDTO" id="selectFourMap">
+		<id column="grade" property="grade"/>
+		<result column="losal" property="losal"/>
+		<result column="hisal" property="hisal"/>
+		<collection property="empList" ofType="empDTO">
+			<id column="empno" property="empNo"/>
+			<result column="ename" property="ename"/>
+			<result column="job" property="job"/>
+			<result column="sal" property="sal"/>
+		</collection>
+	</resultMap>
+	
+	<!-- 
+	문제1)
+   사원번호가 전달되면 사원번호에 해당하는 
+  "사원번호, 사원이름 , 부서명, 부서지역" 검색하고
+   사원번호가 없으면 모든 사원의 
+   "사원번호, 사원이름 , 부서명, 부서지역" 검색 한다.
+
+    => 사원별 사원정보와 부서정보 -> 1 : 1 
+       
+	 -->
+	<select id="selectOne" parameterType="int"   resultMap="selectOneMap">
+		SELECT e.empno, e.ename,e.job, e.hiredate, d.dname, d.loc
+		FROM emp e JOIN dept d
+		ON
+		e.deptno = d.deptno
+		<if test="_parameter>0">
+			where empno = #{_parameter}
+		</if>
+	</select>
+	
+	
+	
+
+<!-- 
+  각 부서별를 기준으로 사원이름검색((deptno,dname, loc, empno,ename)
+     1 : 다 
+ -->
+
+	<select id="selectTwo" resultMap="selectTwoMap">
+		select e.empno, e.ename, d.deptno, d.dname, d.loc
+		from emp e join dept d
+		on e.deptno = d.deptno
+	</select>
+	
+	
+
+  <!-- 1)  사원의 급여 등급 :  1 대 1 -->
+	<select id="selectThree" resultMap="selectThreeMap">
+		SELECT empno, ename, job, sal, grade, losal, hisal
+		FROM emp e JOIN salgrade s
+		ON e.sal BETWEEN s.losal AND s.hisal
+	</select>
+	
+	
+	
+	
+	
+	<!--   2) 각 등급별 사원의 정보 검색 : 1 : 다 -->
+	<select id="selectFour" resultMap="selectFourMap">
+		SELECT empno, ename, job, sal, grade, losal, hisal
+		FROM emp e JOIN salgrade s
+		ON e.sal BETWEEN s.losal AND s.hisal
+	</select>
+
+</mapper>
+
+
