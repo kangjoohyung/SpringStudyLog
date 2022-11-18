@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,6 +20,14 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @Service
 @Aspect
 public class SessionCheckAdvice {
+	
+//	@Autowired
+//	private HttpSession session; //주입하게되면 session이 공유가 되기때문에, 생기는 문제들이 있을수있음
+//	@Autowired
+//	private HttpServletRequest request; //마찬가지 -> 구조상 문제로 주입사용하면 안됨
+//->Controller에서만 사용하려는 영역이기때문에, service까지 와서 접근하면 안됨.
+//->현재 AOP영역이어서, 주입받으면 안됨 ->그래서 RequestContextHolder로 그때그때 쓰고 끝낼수있게 함
+//(그럼 컨트롤러에서는 주입 되는듯?)
 
 	/*@Before("execution(public * kosta.web.mvc.board.controller.BoardController.*(..))")
 	public void before(JoinPoint joinPoint ) {

@@ -24,9 +24,14 @@ import kosta.web.mvc.user.repository.UserMapper;
 
 @Configuration
 @EnableTransactionManagement //TransactionManagementConfigurer를 구현한 클래스에 필수선언
-@PropertySource("/WEB-INF/spring/appServlet/dbInfo.properties")
+@PropertySource("/WEB-INF/spring/appServlet/dbInfo.properties")//placeholder가 내부에 있어야 사용가능
 public class PersistenceConfig  implements TransactionManagementConfigurer{//<tx:annotation-driven
 
+	//MyBatis말고 JPA를 쓰더라도 이 환경설정의 틀을 그대로 사용할 수 있다. ->dbInfo, mapper정보들, alias 정도만 거기에맞게 수정
+	//경로 설정 : 위의 @Property Sorce 주소, mapper(xml이나 interface기반), aliaspackage(DTO)
+	//boot에서는 이 환경설정마저도 알아서 해주고, 경로만 설정하게됨
+	//우선 로드해야하는건 static
+	
 	@Autowired
 	private Environment env; //@PropertySource선언된 파일에 있는 모든 key,value의 정보가 저장
 	
@@ -42,19 +47,22 @@ public class PersistenceConfig  implements TransactionManagementConfigurer{//<tx
 	 * Spring Container가 static으로 선언된 메소드를 가장먼저 bean으로 등록한다.
 	 * */
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer getPlaceholder() {
+	public static PropertySourcesPlaceholderConfigurer getPlaceholder() {//이것 생성후에 위에 propertysource 사용가능
 		System.out.println("getPlaceholder() call........");
 		PropertySourcesPlaceholderConfigurer placeHolder = new PropertySourcesPlaceholderConfigurer();
 		return placeHolder;
 	}
 	
+	/**
+	 * database Connection pool 설정
+	 */
 	@Bean
 	public BasicDataSource getBasicDataSource() {
 		System.out.println("getBasicDataSource() call................");
 		BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName(env.getProperty("driverName"));
 		dataSource.setUrl(env.getProperty("url"));
-		dataSource.setUsername(username);
+		dataSource.setUsername(username); //인수에 "c##scott" 식으로 넣어도 됨(유연성 차원에서 따로 설정)
 		dataSource.setPassword(userpass);
 		dataSource.setMaxActive(10);
 		
@@ -72,20 +80,22 @@ public class PersistenceConfig  implements TransactionManagementConfigurer{//<tx
 		factoryBean.setDataSource(getBasicDataSource());
 		
 		PathMatchingResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
-		Resource [] resource = patternResolver.getResources("classpath:mapper/*Mapper.xml");
-		factoryBean.setMapperLocations(resource);
+//		Resource [] resource = patternResolver.getResources("classpath:mapper/*Mapper.xml"); //mapper있을때만 사용(없으면 에러남)
+//		factoryBean.setMapperLocations(resource);
 		factoryBean.setTypeAliasesPackage("kosta.web.mvc.*.dto");
 		
 		
 		PathMatchingResourcePatternResolver patternResolver2 = new PathMatchingResourcePatternResolver();
-		factoryBean.setConfigLocation(patternResolver2.getResource("classpath:SqlMapConfig.xml"));
+//		factoryBean.setConfigLocation(patternResolver2.getResource("classpath:SqlMapConfig.xml"));//mapper있을때만 사용(없으면 에러남)
 		
 		return factoryBean;
 		
 	}
 	
 	@Bean
-	public SqlSessionTemplate getSqlSessionTemplate()throws Exception {
+	public SqlSessionTemplate getSqlSessionTemplate()throws Exception { 
+		//sqlSession만드는 bean->factory가 있어야 가능->그래서 생성자없이 아래 sqlSession의 인수로 무조건 factory가 필요
+		
 		System.out.println("getSqlSessionTemplate() call......");
 		SqlSessionTemplate sqlSession = new SqlSessionTemplate(getSqlSessionFactoryBean().getObject());
 		return sqlSession;
