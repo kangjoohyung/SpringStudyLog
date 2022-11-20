@@ -57,8 +57,10 @@ public class BoardController {
 		}
 		
 		boardService.insert(electronics);
+		//int result=boardService.insert(electronics);
 		
 		if(mfile.getSize() > 0) {
+		//if(result!=0 && mfile.getSize() > 0) {
 		  mfile.transferTo(new File(PATH_SAVE+"/" + mfile.getOriginalFilename()));//폴더에 저장
 		}
 		
