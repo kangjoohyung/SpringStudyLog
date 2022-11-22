@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.3.xsd">
+
+<!-- use-expressions="true" 설정은 spring에서 제공하는 SpringEL 을 사용할 수 있도록 설정
+	 auto-config="true" 설정은 spring에서 제공하는 loginForm 과 로그인+권한에 대한 설정을 자동으로 해준다. -->
+<security:http use-expressions="true" auto-config="true">
+	<security:intercept-url pattern="/member/main" access="isAuthenticated()"/><!-- 인증만 하면 누구나 -->
+	<security:intercept-url pattern="/admin/main" access="hasRole('ADMIN')"/><!-- ROLE_  은 생략가능 -->
+	
+	<!-- 개발시에만 사용(설정) -->
+<!-- 	<security:csrf disabled="true"/>  -->
+	
+	<!-- 필터 진입시 로그인 폼 관련 설정 -->
+	<security:form-login 
+		login-page="/member/loginForm" 
+		login-processing-url="/login"
+		username-parameter="id" 
+		password-parameter="password" 
+		default-target-url="/" 
+		authentication-failure-handler-ref="memberAuthenticationFailureHandler"/>
+	
+	<!-- 로그아웃 -->
+	<security:logout 
+		delete-cookies="JSESSIONID"
+		invalidate-session="true"
+		logout-url="/member/logout"
+		logout-success-url="/"/>
+		
+	</security:http>
+
+<!-- spring security에서 제공하는 in-memory 기능 설정 
+	: spring security 5.x에서부터 PasswordEncoder는 필수로 비밀번호 평문 사용이 안됨
+	 비밀번호를 설정할 때 비번 앞에 접두어 prefix 선언이 필수 {prefix}
+	 접두어 {noop}는 NoOpPasswordEncoder의 암호화 구현체를 사용하겠다는 뜻
+	 (암호화 없이 평문으로 사용한다는 뜻)-->
+<security:authentication-manager>
+	<security:authentication-provider ref="memberAuthenticationProvider"/>
+</security:authentication-manager>
+
+</beans>
