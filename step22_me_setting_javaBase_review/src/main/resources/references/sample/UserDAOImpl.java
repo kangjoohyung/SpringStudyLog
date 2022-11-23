@@ -5,7 +5,8 @@ import javax.annotation.PostConstruct;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import kosta.web.mvc.user.dto.UserDTO;
+import kosta.web.mvc.model.dto.UserDTO;
+import kosta.web.mvc.model.user.UserDAO;
 import lombok.RequiredArgsConstructor;
 
 @Repository //»ý¼º

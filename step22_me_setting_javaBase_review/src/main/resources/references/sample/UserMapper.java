@@ -2,7 +2,7 @@ package references.sample;
 
 import org.apache.ibatis.annotations.Select;
 
-import kosta.web.mvc.user.dto.UserDTO;
+import kosta.web.mvc.model.dto.UserDTO;
 
 /**
  * xml대신에 interface기반의 Mapper 만들기 

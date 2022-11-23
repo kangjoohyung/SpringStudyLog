@@ -11,7 +11,7 @@
 </div>
 
 <c:choose>
-	<c:when test="${empty loginUser}">
+	<c:when test="${empty userDTO.userId}">
 		<form class="form-horizontal" method="post" action="${path}/user/loginCheck">
 			<fieldset>
 				<legend>Login</legend>
@@ -47,7 +47,7 @@
 					<button type="button" class="close" data-dismiss="alert">Ã</button>
 					<h4>Welcome!</h4>
 					<p>
-						<a href="#" class="alert-link">${loginUser} / ${loginName}</a>.
+						<a href="#" class="alert-link">${userDTO.userId} / ${userDTO.name}</a>.
 					</p>
 				</div>
 			</blockquote>

@@ -29,9 +29,9 @@
 				<li><a href="${pageContext.request.contextPath}/user/login">Login</a></li>
 				<li><a href="${path}/board/list">Board</a></li>
 			</ul>
-			<c:if test="${sessionScope.loginUser != null}">
+			<c:if test="${sessionScope.loginUser.userId != null}">
 				<ul class="nav navbar-nav navbar-right">
-					<li class="active"><a href="#">${loginUser}!</a></li>
+					<li class="active"><a href="#">${userDTO.userId}!</a></li>
 					<li><a href="${pageContext.request.contextPath}/user/logout"
 						class="btn btn-danger">Logout</a></li>
 				</ul>
