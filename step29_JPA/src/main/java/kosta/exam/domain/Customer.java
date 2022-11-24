@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity //ddl옵션이 true일때 테이블 생성
+//@Entity //ddl옵션이 true일때 테이블 생성
 //@Table(name="aa") //table이름 바꿔서 생성가능
 @AllArgsConstructor
 @NoArgsConstructor

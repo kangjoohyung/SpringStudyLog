@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+
+ <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"> 
+  <persistence-unit name="JPAProject"> 
+<!--   <class>coupang.domain.Board</class> 
+  <class>coupang.domain.Employee</class>  -->
+  <properties>
+  
+   <!-- 필수 속성 --> <!-- 순서상관없음 -->
+    <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.driver.OracleDriver"/>
+     <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:XE"/> 
+    <property name="javax.persistence.jdbc.user" value="c##scott"/>
+     <property name="javax.persistence.jdbc.password" value="TIGER"/> 
+   <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+   <!-- 버젼과 상관없이 10gDialect로 방언설정 -->
+   
+   
+<!-- 옵션 --> 
+<property name="hibernate.show_sql" value="true" /> <!-- log가 콘솔출력됨(따로 log4j사용안해도됨) -->
+ <property name="hibernate.format_sql" value="true" />
+  <property name="hibernate.use_sql_comments" value="false" />
+   <property name="hibernate.id.new_generator_mappings" value="true" />
+   
+ <property name="hibernate.hbm2ddl.auto" value="none" /> 
+ <!-- 개발모드에서 쓰고 거의 none으로함(ddl이라 운영모드에선 사용안하는게 좋음) -->
+ <!-- create/create-drop/update/validate/none -->
+ 
+ </properties> 
+ 
+ </persistence-unit> 
+ </persistence>

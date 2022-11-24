@@ -69,7 +69,7 @@ public class ParameterController {
 	 * 	@ModelAttribute
 	 */
 	@RequestMapping("/c.do") //리턴값(String)이 뷰의 이름이됨
-	public String c(@ModelAttribute("m") Member mem) { //한번에 객체로 받기(dto활용하여 인수 한번에 받기)
+	public String c(@ModelAttribute("m") Member221124 mem) { //한번에 객체로 받기(dto활용하여 인수 한번에 받기)
 		//기본생성자+set으로 받아짐(한꺼번에 인수받는 생성자 말고)
 		//뷰에서는 여기서 받은 이름과는 관계없이 객체명에서 앞글자 소문자로 인수 들어감(${mem}이아닌 ${member})
 		System.out.println("mem="+mem);

@@ -43,19 +43,19 @@ public class AjaxController {
 	}
 	
 	@RequestMapping("/memberDTO")
-	public Member dto() {
+	public Member221124 dto() {
 		
-		return new Member("jang", "장희정", 22, "경기도 오리역");
+		return new Member221124("jang", "장희정", 22, "경기도 오리역");
 	}
 	
 	@RequestMapping("/list")
-	public List<Member> memberList(){
-		List<Member> memberList=new ArrayList<Member>();
-		memberList.add(new Member("jang1", "장희정1", 21, "경기도 오리역1"));
-		memberList.add(new Member("jang2", "장희정2", 22, "경기도 오리역2"));
-		memberList.add(new Member("jang3", "장희정3", 23, "경기도 오리역3"));
-		memberList.add(new Member("jang4", "장희정4", 24, "경기도 오리역4"));
-		memberList.add(new Member("jang5", "장희정5", 25, "경기도 오리역5"));
+	public List<Member221124> memberList(){
+		List<Member221124> memberList=new ArrayList<Member221124>();
+		memberList.add(new Member221124("jang1", "장희정1", 21, "경기도 오리역1"));
+		memberList.add(new Member221124("jang2", "장희정2", 22, "경기도 오리역2"));
+		memberList.add(new Member221124("jang3", "장희정3", 23, "경기도 오리역3"));
+		memberList.add(new Member221124("jang4", "장희정4", 24, "경기도 오리역4"));
+		memberList.add(new Member221124("jang5", "장희정5", 25, "경기도 오리역5"));
 		
 		return memberList;
 	}
@@ -68,15 +68,15 @@ public class AjaxController {
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("message", "배고파요~");
 		map.put("pageNo", 10);
-		map.put("dto", new Member("jang", "장희정", 22, "경기도 오리역"));
+		map.put("dto", new Member221124("jang", "장희정", 22, "경기도 오리역"));
 		
 
-		List<Member> memberList=new ArrayList<Member>();
-		memberList.add(new Member("jang1", "장희정1", 21, "경기도 오리역1"));
-		memberList.add(new Member("jang2", "장희정2", 22, "경기도 오리역2"));
-		memberList.add(new Member("jang3", "장희정3", 23, "경기도 오리역3"));
-		memberList.add(new Member("jang4", "장희정4", 24, "경기도 오리역4"));
-		memberList.add(new Member("jang5", "장희정5", 25, "경기도 오리역5"));
+		List<Member221124> memberList=new ArrayList<Member221124>();
+		memberList.add(new Member221124("jang1", "장희정1", 21, "경기도 오리역1"));
+		memberList.add(new Member221124("jang2", "장희정2", 22, "경기도 오리역2"));
+		memberList.add(new Member221124("jang3", "장희정3", 23, "경기도 오리역3"));
+		memberList.add(new Member221124("jang4", "장희정4", 24, "경기도 오리역4"));
+		memberList.add(new Member221124("jang5", "장희정5", 25, "경기도 오리역5"));
 		
 		map.put("memberList", memberList);
 		
