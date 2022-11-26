@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Step30BootJpaApplicationTests {
+class Step31BootSecurityApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("단위 테스트 할거에요");
 	}
 
 }
