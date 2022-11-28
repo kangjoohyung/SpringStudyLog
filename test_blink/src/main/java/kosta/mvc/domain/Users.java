@@ -20,4 +20,7 @@ public class Users {
 	@Id
 	@Column(length = 20)
 	private String usersId;
+	
+	@Column(nullable = false)
+	private int usersMembership; //0이면 일반, 1이면 멤버쉽
 }

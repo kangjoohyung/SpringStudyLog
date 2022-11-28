@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor//오류남
 @Commit
-public class BoardRepTests {
+public class BlinkTest {
 	
 	@Autowired // 주입 //final 쓰니까 오류남
 	private BoardRepository rep;

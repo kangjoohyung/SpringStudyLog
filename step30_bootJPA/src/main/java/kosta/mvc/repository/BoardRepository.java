@@ -23,6 +23,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> , QuerydslPr
 	@Modifying //select 제외하고 나머지 3가지 DML및 DDL에서 필요
 	void deleteGrateThan(Long bno);
 	
+	List<Board> findByBnoGreaterThan(Long bno);
+	
 	/**
 	 * 글번호 또는 제목에 해당하는 레코드 검색
 	 */

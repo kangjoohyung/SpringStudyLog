@@ -39,7 +39,7 @@ public class Orderdetails {
 	//@ManyToOne(fetch = FetchType.EAGER)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="product_code")
-	private Product productCode; //private String productCode; @Column(length = 30)
+	private Product product; //private String productCode; @Column(length = 30)
 
 	private int orderdetailsQty;
 	private int orderdetailsPrice;
