@@ -1,12 +1,14 @@
 package references.JPA.boot.step32;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -50,4 +52,8 @@ public class FreeBoard {
 	
 	@UpdateTimestamp
 	private LocalDateTime updateDate;
+	
+	//댓글 정보
+	@OneToMany(mappedBy = "freeBoard") //기본 지연로딩
+	private List<Reply> replyList;
 }
