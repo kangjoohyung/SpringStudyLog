@@ -1,0 +1,270 @@
+* 유저생성('users+숫자'로 생성되고 비번은 모두 1111, 아이디, 전화번호, 이메일 뒷자리에 users의 번호가 입력됨)
+		한자리수의 유저는 멤버코드 1, 두자리수는 0으로 설정되어있습니다.
+
+@Test
+	public void insert() {
+		//멤버회원
+		for(int i=1; i<=9; i++) {
+		usersRep.save(new Users("users"+i, "1111", "010-1234-123"+i, "users"+i+"@naver.com", "users"+i, 1, null));
+		}
+		
+		//일반회원
+		for(int i=11; i<=30; i++) {
+			usersRep.save(new Users("users"+i, "1111", "010-1234-12"+i, "users"+i+"@naver.com", "users"+i, 0, null));
+		}
+	}
+
+*주문
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '서울특별시 중구 명동길 74', '20221225','김하나','01011111111','주문완료','04537','users1');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '서울특별시 송파구 올림픽로 300', '20221110','김두나','01022222222','주문완료','05551','users2');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '서울특별시 강남구 봉은사로 524', '20220909','김세나','01033333333','주문완료','06164','users3');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '강원도 영월군 예밀촌길 229-11', '20220823','김나나','01044444444','주문완료','26246','users4');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '제주특별자치도 제주시 용눈이오름로 380', '20220718','김다나','01055555555','주문완료','63354','users5');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '서울시 종로구 청와대로 1', sysdate,'김철수','01066666666','주문완료','03048','users6');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '서울특별시 영등포구 의사당대로 1', '20220625','김바둑','01077777777','주문완료','07233','users7');
+
+INSERT INTO orders(orders_no, orders_addr, orders_date, orders_receiver_name, orders_receiver_phone, orders_status, orders_zipcode, users_id)
+VALUES(orders_seq.nextval, '서울특별시 용산구 이태원로 29', '20220530','김영희','01088888888','주문완료','04353','users8');
+
+
+*상품 : 일단 상품명을 어떻게 설정해야할지 확실치 않아서 멤버별 피규어 이름넣고 가격이랑 재고수량, 멤버십여부는 임의로 적어두었어요.
+	   테스트하실 때 조건을 변경하시면 될 것 같습니다.
+	  상품에 굿즈(일반상품)는 A01~A06까지 만들었고 앨범은 B01~B04로 분류했어요.
+	  카테고리 코드 없이 들어가게되고 피규어는 사이즈까지 들어갑니다.
+
+	@Test
+	public void insertProduct() {	
+		productRep.save(Product.builder()
+				.productCode("A01")
+				.productName("피규어(제니)")
+				.productEngName("product1")
+				.productStock(3000)
+				.productPrice(28000)
+				.productMainImg("이미지경로1-1")
+				.productDetailImg("이미지경로1-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.productSize("15.7 x 14 x 22.5cm")
+				.build());
+		productRep.save(Product.builder()
+				.productCode("A02")
+				.productName("피규어(지수)")
+				.productEngName("product2")
+				.productStock(200)
+				.productPrice(28000)
+				.productMainImg("이미지경로2-1")
+				.productDetailImg("이미지경로2-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.productSize("15.7 x 14 x 22.5cm")
+				.build());
+		productRep.save(Product.builder()
+				.productCode("A03")
+				.productName("피규어(리사)")
+				.productEngName("product3")
+				.productStock(-1)
+				.productPrice(15000)
+				.productMainImg("이미지경로3-1")
+				.productDetailImg("이미지경로3-2")
+				.productReadNo(0)
+				.productMembershipOnly(1)
+				.productSize("15.7 x 14 x 22.5cm")
+				.build());
+		productRep.save(Product.builder()
+				.productCode("A04")
+				.productName("멤버쉽카드")
+				.productEngName("product4")
+				.productStock(-1)
+				.productPrice(35000)
+				.productMainImg("이미지경로4-1")
+				.productDetailImg("이미지경로4-2")
+				.productReadNo(0)
+				.productMembershipOnly(1)
+				.build());
+		productRep.save(Product.builder()
+				.productCode("A05")
+				.productName("피규어(로제)")
+				.productEngName("product5")
+				.productStock(50)
+				.productPrice(20000)
+				.productMainImg("이미지경로5-1")
+				.productDetailImg("이미지경로5-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.productSize("15.7 x 14 x 22.5cm")
+				.build());
+		productRep.save(Product.builder()
+				.productCode("A06")
+				.productName("블랙핑크 포스터")
+				.productEngName("product6")
+				.productStock(3)
+				.productPrice(5000)
+				.productMainImg("이미지경로6-1")
+				.productDetailImg("이미지경로6-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.productSize("30 x 35cm")
+				.build());
+		productRep.save(Product.builder()
+				.productCode("B01")
+				.productName("BornPink")
+				.productEngName("BornPink")
+				.productStock(10000)
+				.productPrice(50000)
+				.productMainImg("BornPink이미지경로7-1")
+				.productDetailImg("BornPink이미지경로7-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.build());
+		productRep.save(Product.builder()
+				.productCode("B02")
+				.productName("THEALBUM")
+				.productEngName("THEALBUM")
+				.productStock(10000)
+				.productPrice(45000)
+				.productMainImg("THEALBUM이미지경로8-1")
+				.productDetailImg("THEALBUM이미지경로8-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.build());
+		productRep.save(Product.builder()
+				.productCode("B03")
+				.productName("KillThisLove")
+				.productEngName("KillThisLove")
+				.productStock(10000)
+				.productPrice(40000)
+				.productMainImg("KillThisLove이미지경로9-1")
+				.productDetailImg("KillThisLove이미지경로9-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.build());
+		productRep.save(Product.builder()
+				.productCode("B04")
+				.productName("SquareUp")
+				.productEngName("SquareUp")
+				.productStock(10000)
+				.productPrice(35000)
+				.productMainImg("SquareUp이미지경로10-1")
+				.productDetailImg("SquareUp이미지경로10s-2")
+				.productReadNo(0)
+				.productMembershipOnly(0)
+				.build());
+
+	}
+
+
+*주문상세 : 여러 상품별로 작성했습니다. order_no만 등록된 orders_no와 맞추어서 사용하세요. 현재는 주문번호21번의 옵션으로만 되어있습니다.
+
+--A01 제니피규어 1개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'28000','1','21','A01');
+--A01 제니피규어 2개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'28000','2','21','A01');
+--A01 제니피규어 3개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'28000','3','21','A01');
+
+--A02 지수 피규어 1개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'28000','1','21','A02');
+--A02 지수 피규어 1개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'28000','2','21','A02');
+--A02 지수 피규어 1개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'28000','3','21','A02');
+
+
+--A03 리사피규어 1개주문 (현재는 멤버십온리1로 설정된 경우만 구매가능하게 되어있으니 멤버십온리인 유저가 주문하게 해주세요.) 
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'15000','1','21','A03');
+--A03 리사피규어 2개주문 (현재는 멤버십온리1로 설정된 경우만 구매가능하게 되어있으니 멤버십온리인 유저가 주문하게 해주세요.) 
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'15000','2','21','A03');
+--A03 리사피규어 3개주문 (현재는 멤버십온리1로 설정된 경우만 구매가능하게 되어있으니 멤버십온리인 유저가 주문하게 해주세요.) 
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'15000','3','21','A03');
+
+--A04 멤버쉽카드 주문 (현재는 멤버십온리1로 설정된 경우만 구매가능하게 되어있으니 멤버십온리인 유저가 주문하게 해주세요.)
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'35000','1','21','A04');
+
+--A05 로제피규어 3개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'20000','3','21','A05');
+--A05 로제피규어 4개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'20000','4','21','A05');
+--A05 로제피규어 5개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'20000','5','21','A05');
+
+--A06 포스터 1개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'5000','1','21','A06');	
+--A06 포스터 3개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'5000','3','21','A06');	
+--A06 포스터 8개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'5000','8','21','A06');
+--A06 포스터 10개주문
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'5000','10','21','A06');
+
+--B01 앨범 1개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'50000','1','21','B01');
+--B01 앨범 2개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'50000','2','21','B01');
+--B01 앨범 3개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'50000','3','21','B01');
+
+
+--B02 앨범 1개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'45000','1','21','B02');	
+--B02 앨범 5개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'45000','5','21','B02');	
+--B02 앨범 7개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'45000','7','21','B02');	
+
+--B03 앨범 1개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'40000','1','21','B03');	
+--B03 앨범 10개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'40000','10','21','B03');	
+--B03 앨범 20개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'40000','20','21','B03');	
+
+
+--B04 앨범 1개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'35000','1','21','B04');	
+--B04 앨범 4개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'35000','4','21','B04');
+--B04 앨범 8개주문	
+INSERT INTO orderdetails(orderdetails_no, orderdetails_price, orderdetails_qty, orders_no, product_code)
+VALUES(orders_seq.nextval,'35000','8','21','B04');	

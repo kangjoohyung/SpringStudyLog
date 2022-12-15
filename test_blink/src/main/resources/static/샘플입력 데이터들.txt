@@ -1,0 +1,125 @@
+A01
+A02
+
+G01
+M01
+멤버쉽카드
+
+--------------------
+A01
+SQUARE UP
+SQUARE UP
+16300
+-1
+147x147x21mm / 250g
+CD + 포토북 + 렌티큘러 가사지 + 엽서 1장 + 랜덤 포토카드1장 + 랜덤 셀피 포토카드 1장 + 포스터 (초도한정)
+->영어로 변경
+CD + Photo Book + Lenticular Lyric Book + 1 Postcard + 1 Photo Card (Shipped at Random) + 1 Selfie Photo Card (Shipped at Random)
+2018-06-15
+---------------------
+A02
+KILL THIS LOVE
+KILL THIS LOVE
+16300
+-1
+60x211x20mm / 750g
+CD + 아웃박스 + 포토북 + 아코디언식 가사지 + 랜덤 양면 접지 포스터 1장 + 랜덤 폴라로이드 포토카드1장 + 포토진 + 스티커 세트 + 랜덤 대형 포토카드 세트 (4장) + 양면 포스터 (초도한정)
+->영어로 변경
+CD + Packaging Box + Photo Book + Accordion Lyric Book + Instant Photo Card (Shipped at Random)(1 piece) + Photo Zine + Sticker Set + Large Photo Card Set (Shipped at Random)(4 pieces)
+2019-04-05
+----------------------
+A03
+THE ALBUM
+THE ALBUM
+20000
+-1
+160*160*60mm / 900 g
+패키지박스 + CD + 하드커버 포토북 (96p) + 엽서 세트 (4ea) + 크레딧 시트 (2p) + 가사집 (14p) +랜덤 포토카드 (2 of 20) + 랜덤 엽서(2 of 20) + 랜덤 스티커 (1 of 4) + 마운트 포토카드 (1ea)
+->영어로
+Packaging + CD + Hardcover Photo Book (96p) + Postcard Set (4 ea.) + Credit Sheet (2p) + Lyric Book (14p) + Photo Card (2 Out of 20 Shipped at Random) + Postcard (2 Out of 20 Shipped at Random) + Sticker (1 Out of 4 Shipped at Random) + Mounted Photo Card (1 ea.)
+2020-10-02
+----------------------
+A04
+BORN PINK
+BORN PINK
+20000
+-1
+162 x 212 x 30 mm / 600g
+PACKAGE BOX + CD + PHOTOBOOK (80P) + ENVELOPE + ACCORDION LYRICS PAPER + RANDOM LARGE PHOTOCARD (1 of 4) + RANDOM POSTCARD (1 of 4) + RANDOM INSTANT FILMS (2 of 8) + RANDOM SELFIE PHOTOCARD (1 of 8)
+2022-09-16
+----------------------
+(굿즈로 등록후 직접 변경)
+M01
+멤버쉽카드
+Membership Card
+25000
+-1
+86mm*54mm
+plastic
+made in korea
+----------------------
+G01
+SUMMER DIARY
+SUMMER DIARY
+43000
+-1
+147 x 184 x 30 mm / 1kg
+PostcardSet+PhotoSet
+made in korea
+
+----------------------
+G02
+FIGURE_JENNIE
+FIGURE_JENNIE
+84000
+300
+15.7 x 15.5 x 23cm / 203.5g
+PVC, ABS, STAINLESS STEEL
+made in Thailand
+
+-------------------------------------------------------
+회원 cascade설정 / set null 설정(삭제시 컬럼 null로 업데이트후 유지)
+권한, 댓글, 좋아요  / 게시판->필요없음
+set null설정 : 주문->cascade로 설정(조회할때 null포인터 exception 발생)
+
+ALTER TABLE [테이블명] ADD CONSTRAINT [제약조건명] [제약조건](컬럼명)
+
+제약조건은 수정 불가능
+
+ALTER TABLE authority
+CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES USERS (users_id)
+    ON DELETE CASCADE;
+
+ALTER TABLE 테이블명
+ADD CONSTRAINT 제약조건명
+  FOREIGN KEY (CHILD_테이블의_FK값) -- 해당 테이블의 FK 설정
+  REFERENCES MOTHER_테이블명(MOTHER_테이블의_PK) -- MOTHER PK와 연결
+  ON DELETE CASCADE; -- MOTHER TABLE의 값 삭제시 연결된 값 삭제
+--------------------------------------------------------
+
+alter table authority drop constraint FKISGR60ROCUEHYFR5VMOHKWRB4;
+
+ALTER TABLE authority
+add CONSTRAINT authority_fk_users_cascade
+  FOREIGN KEY (users_id)
+  REFERENCES users(users_id)
+  ON DELETE CASCADE;
+-------
+alter table orders drop constraint 
+FKE6K45XXOIN4FYLNWG2JKEHWJF;
+
+ALTER TABLE orders
+ADD CONSTRAINT orders_fk_users_setnull
+  FOREIGN KEY (users_id)
+  REFERENCES users(users_id)
+  ON DELETE set null;
+-------
+alter table reply drop constraint 
+FKAX8H8VP9AICU93CYPOWJTTBBU;
+
+ALTER TABLE reply
+ADD CONSTRAINT reply_cascade
+  FOREIGN KEY (users_id)
+  REFERENCES users(users_id)
+  ON DELETE CASCADE;
+-------
